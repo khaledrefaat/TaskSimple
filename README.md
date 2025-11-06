@@ -9,6 +9,7 @@ A full-stack todo app with offline-first support. Work without internet and sync
 - **Projects**: Group todos into projects
 - **Auto Sync**: Changes sync to database with last-write-wins conflict resolution
 - **PWA**: Install as app on desktop or mobile
+- **Optional Auth**: Enable authentication for database sync or multi-device support
 
 ## Tech Stack
 
