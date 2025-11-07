@@ -1,26 +1,26 @@
-# Offline-First Todo App
+# Todo App
 
-A full-stack todo app with offline-first support. Work without internet and sync automatically when you're back online.
+A full-stack todo app with offline support. Work as a guest locally or sign up to save to the cloud.
 
 ## Features
 
-- **Offline First**: Create and edit todos/projects offline, syncs when online
-- **Drag & Drop**: Organize todos by dragging between projects
-- **Projects**: Group todos into projects
-- **Auto Sync**: Changes sync to database with last-write-wins conflict resolution
-- **PWA**: Install as app on desktop or mobile
-- **Optional Auth**: Enable authentication for database sync or multi-device support
+- **Offline First**: Create todos and projects without internet
+- **Guest Mode**: Start using immediately, no account needed
+- **Accounts**: Sign up to save your data to the cloud
+- **Projects**: Organize todos into projects
+- **Dark Mode**: Built-in dark/light theme
+- **PWA**: Install on desktop or mobile
 
 ## Tech Stack
 
-- Next.js 16 (React)
-- TypeScript
+- Next.js 16 + React + TypeScript
 - PostgreSQL + Drizzle ORM
 - IndexedDB
+- TailwindCSS
 
 ## Quick Start
 
-1. **Install dependencies**
+1. **Install**
 
    ```bash
    pnpm install
@@ -32,10 +32,10 @@ A full-stack todo app with offline-first support. Work without internet and sync
    cp .env.example .env.local
    ```
 
-   Add your Neon database URL:
+   Add your database URL:
 
    ```
-   DATABASE_URL=postgresql://user:password@ep-xxxxx.us-east-1.neon.tech/todo_app
+   DATABASE_URL=postgresql://...
    ```
 
 3. **Run migrations**
@@ -44,37 +44,46 @@ A full-stack todo app with offline-first support. Work without internet and sync
    pnpm db:push
    ```
 
-4. **Start dev server**
+4. **Start**
    ```bash
    pnpm dev
    ```
 
 ## How It Works
 
-- All changes save to IndexedDB first (works offline)
-- When online, pending changes sync to PostgreSQL
-- Synced items are marked as `syncStatus: 'synced'`
-- Conflict resolution: latest `updatedAt` timestamp wins
+**Guests**: Data stored in IndexedDB (your browser)  
+**Logged In**: Data stored in PostgreSQL (cloud)
+
+No account needed to get started!
 
 ## Project Structure
 
 ```
 lib/db/
-├── schema.ts          # Drizzle schema
-└── indexeddb.ts       # IndexedDB operations
+├── auth.ts            # Auth utility functions
+└── indexeddb.ts       # Browser storage
+└── dal.ts             # Data Access Layer
+
+db/
+├── index.ts           # drizzel setup
+└── schema.ts          # Database schema
 
 app/api/
-└── sync/route.ts      # Sync endpoint
+├── projects/          # Project endpoints
+└── todos/             # Todo endpoints
+
+app/actions/
+├── actions/           # Auth Actions
 
 components/
-├── ProjectList.tsx
-├── TodoList.tsx
-└── DragDropProvider.tsx
+├── auth/              # Auth forms
+├── todos/             # Todos components
+└── ...
 ```
 
-## Testing Offline
+## Future Ideas
 
-1. Open DevTools (F12)
-2. Network tab → check "Offline"
-3. Create/edit todos
-4. Uncheck "Offline" to sync
+- Sync between devices (cloud backup for offline data)
+- Collaborate on projects with other users
+- Todo templates
+- Export & import data as JSON

@@ -1,0 +1,91 @@
+---
+alwaysApply: true
+---
+
+You are an expert in TypeScript, Node.js, Next.js 16 App Router, React, Shadcn UI, Radix UI, Tailwind, Drizzle ORM, IndexedDB, and drag-and-drop libraries.
+
+## Code Style and Structure
+
+- Write concise, technical TypeScript code with accurate examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError, isSyncing, isPending).
+- Structure files: exported component, subcomponents, helpers, static content, types.
+
+## Naming Conventions
+
+- Use lowercase with dashes for directories (e.g., components/todo-list, lib/db, components/drag-drop).
+- Favor named exports for components.
+
+## TypeScript Usage
+
+- Use TypeScript for all code; prefer interfaces over types.
+- Avoid enums; use maps instead.
+- Use functional components with TypeScript interfaces.
+- Define interfaces for all entities: User, Project, Todo (matching IndexedDB and Drizzle schemas).
+
+## Syntax and Formatting
+
+- Use the "function" keyword for pure functions.
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+- Use declarative JSX.
+
+## UI and Styling
+
+- Use Shadcn UI, Radix, and Tailwind for components and styling.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
+
+## Performance Optimization
+
+- Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+- Wrap client components in Suspense with fallback.
+- Use dynamic loading for non-critical components.
+- Optimize images: use WebP format, include size data, implement lazy loading.
+- Batch IndexedDB queries to minimize operations.
+
+## Key Conventions
+
+- Use 'nuqs' for URL search parameter state management.
+- Optimize Web Vitals (LCP, CLS, FID).
+- Limit 'use client':
+  - Favor server components and Next.js SSR.
+  - Use only for Web API access in small components.
+  - Use for IndexedDB operations, drag-and-drop interactivity, and sync detection.
+  - Avoid for data fetching or state management when possible.
+
+## Offline-First & Sync
+
+- All client changes save to IndexedDB first with `syncStatus: 'pending'`.
+- Use `lib/db/indexeddb.ts` for all local storage operations.
+- Implement conflict resolution using `updatedAt` timestamps (last-write-wins).
+- Mark items as `syncStatus: 'synced'` after successful server sync.
+- Always include error handling for IndexedDB and sync failures.
+- Detect online/offline status and trigger sync automatically.
+
+## Database & ORM
+
+- Use Drizzle ORM for all PostgreSQL operations via Neon.
+- Keep schema in `lib/db/schema.ts` with sync fields: `syncStatus`, `localId`, `isDeleted`, `updatedAt`.
+- Run migrations with `pnpm db:push`.
+- Include `userId` on todos and projects for querying and permissions.
+
+## Drag & Drop
+
+- Implement drag-and-drop for organizing todos between projects.
+- Update `updatedAt` when items are reordered.
+- Ensure drag-and-drop works offline and syncs changes on reconnect.
+
+## PWA & App Features
+
+- Include manifest.json for PWA installation.
+- Add service worker for offline support.
+- Ensure app works on desktop and mobile devices.
+- Optional authentication for multi-device sync or database persistence.
+
+## API Routes
+
+- Keep routes in `app/api/` organized by resource (projects, todos, sync).
+- Validate all incoming data.
+- Return consistent JSON responses.
+
+Follow Next.js docs for Data Fetching, Rendering, and Routing.
